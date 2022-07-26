@@ -15,8 +15,8 @@ export default function Problemas() {
   const [solucao, setSolucao] = useState("");
   const [tipo, setTipo] = useState("");
 
-  const url = "http://localhost:8081/";
-
+  const url = "https://beesolutions.herokuapp.com/";
+  
 //get 
   useEffect(() => {
     fetch(url + "solucao")
