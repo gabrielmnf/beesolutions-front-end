@@ -12,7 +12,7 @@ export default function Usuarios() {
   const [email, setEmail] = useState("");
   const [tipo, setTipo] = useState("");
 
-  const url = "http://localhost:8081/";
+  const url = "https://beesolutions.herokuapp.com/";
 
 //get
   useEffect(() => {
