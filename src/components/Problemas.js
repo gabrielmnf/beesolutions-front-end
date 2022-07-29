@@ -1,19 +1,17 @@
-import React, { useEffect, useState, /*Component*/ } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import imgEdit from "../img/botaoeditar.ico";
 import imgDelete from "../img/botaodeletar.ico";
 import '../Problemas.css';
-// import Simpletextarea from "./textarea";
 
 export default function Problemas() {
   const [id, setId] = useState("");
   const [problemas, setProblemas] = useState([]);
-  // const [usuarios, setUsuarios] = useState([]);
-  // const [nome, setNome] = useState("");
   const [id_usuario, setId_usuario] = useState("");
   const [numero, setNumero] = useState("");
   const [solucao, setSolucao] = useState("");
   const [tipo, setTipo] = useState("");
+  const [search, setSearch] = useState("")
 
   const url = "https://beesolutions.herokuapp.com/";
   
@@ -26,7 +24,7 @@ export default function Problemas() {
   }, [url]);
 
 //post 
-function novaSolucao() {
+  function novaSolucao() {
     setTipo("nova");
   }
 
@@ -39,15 +37,7 @@ function novaSolucao() {
     setSolucao("");
   }
 
-  function cancelarDados() {
-    setId("");
-    setId_usuario("");
-    setTipo("");
-    setNumero("");
-    setSolucao("");
-  }
-
-//   put CERTO
+//   put 
   function editarDados(cod) {
     console.log(cod);
     let resposta = problemas.find(item => item.id === cod);
@@ -85,7 +75,6 @@ function novaSolucao() {
     setTipo("");
   }
 
-
 //   put / post
   function gravaSolucao() {
     if (id_usuario !== "" && numero !== "" && solucao !== "") {
@@ -112,40 +101,16 @@ function novaSolucao() {
     }
   }
   
-
-//delete
-// function deletarDados(cod) {
-//   console.log(cod);
-//     let resposta = problemas.find(item => item.id === cod);
-//     const {id_usuario, numero} = resposta;
-//     console.log(resposta);
-//     setTipo("");
-//     setId(id_usuario, numero);  
-//     axios
-//         .delete(url + "usuarios/" + id_usuario + "/solucao/" + numero, {
-//           id_usuario: id_usuario,
-//           numero: numero,
-//         })
-//         .then((response) => atualizaListaProblemas(response))
-//         .catch((err) => console.log(err));
-// }
-
-function deletarDados(cod) {
-  let resposta = problemas.find(item => item.id === cod);
-  const {id_usuario, numero} = resposta;
-  axios
-  .delete(url + "usuarios/" + id_usuario + "/solucao/" + numero, {
-    id_usuario: id_usuario,
-    numero: numero,
-  })
-  .then(setProblemas(problemas.filter(item => item.id !== cod)));
-}
-
-// function nomeUsuario(cod){
-//   // let resposta = usuarios.find(item => item.id === cod);
-//   // let {nome} = resposta;
-//   // return (resposta);
-// }
+  function deletarDados(cod) {
+    let resposta = problemas.find(item => item.id === cod);
+    const {id_usuario, numero} = resposta;
+    axios
+    .delete(url + "usuarios/" + id_usuario + "/solucao/" + numero, {
+      id_usuario: id_usuario,
+      numero: numero,
+    })
+    .then(setProblemas(problemas.filter(item => item.id !== cod)));
+  }
 
   return (
     <div>
@@ -153,6 +118,32 @@ function deletarDados(cod) {
       <button class="botaoSolucao" type="button" onClick={novaSolucao}>
         Nova Solução
       </button>
+      {/*  */}
+      <div>
+      <input 
+        id="buscaProblema"
+        type="text"
+        value={search}
+        placeholder="Buscar solucão"
+        onChange={(e) => setSearch(e.target.value)}
+      ></input>
+      {problemas.map((item) => {
+        if(search == item.numero){
+          return (
+            <div key={item.id}>
+              <div id="listados">
+                {" "} 
+                <div id="resolucao">
+                  {"Resolução do problema "}{item.numero}{" pelo usuário "}{item.id_usuario}
+                </div>
+                <pre><code>{item.solucao}</code></pre>{" "}
+              </div>
+            </div>
+          );
+        }
+      })}
+      </div>
+
       {tipo ? (
         <>
           <br/>
@@ -191,7 +182,7 @@ function deletarDados(cod) {
             }}
           />
           </div>
-          <button class="botaoSolucao" type="button" onClick={cancelarDados}>
+          <button class="botaoSolucao" type="button" onClick={limparDados}>
             Cancelar
           </button>
           <button class="botaoSolucao" type="button" onClick={gravaSolucao}>
@@ -237,5 +228,3 @@ function deletarDados(cod) {
   );
 
 }
-
-//COLOCAR TUDO EM TABELA.

@@ -4,7 +4,6 @@ import imgEdit from "../img/botaoeditar.ico";
 import imgDelete from "../img/botaodeletar.ico";
 import '../Usuarios.css';
 
-
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
   const [id, setId] = useState("");
@@ -28,13 +27,6 @@ export default function Usuarios() {
   }
 
 //limpa as caixas de texto
-  function cancelarDados() {
-    setId("");
-    setNome("");
-    setEmail("");
-    setTipo("");
-  }
-
   function limparDados() {
     setId("");
     setNome("");
@@ -51,7 +43,6 @@ function editarDados(cod) {
   setNome(nome);
   setEmail(email);
 }
-
 
 //   put / post
 function gravaDados() {
@@ -88,11 +79,6 @@ function gravaDados() {
       .then(setUsuarios(usuarios.filter(item => item.id !== cod)));
   }
 
-  // const atualizaListaUsuarios = (cod) => {
-  //   window.location.reload(); 
-  //   setTipo("");
-  // };
-
   function atualizaListaComNovoUsuario(response) {
 
     const { id, nome, email } = response.data;
@@ -118,27 +104,9 @@ function gravaDados() {
     setTipo("");
   }
 
-
-  // function botaoGrava(){
-  //   // atualizaListaNovosUsuarios();
-  //   gravaDados();
-  //   atualizaListaUsuarios();
-  // }
-
-  // const [value,setValue] = useState();
-
-  // const refresh = ()=>{
-  //     // it re-renders the component
-  //    setValue({});
-  // }
-
   return (
     
     <div>
-      {/* <div>
-        <p>{Math.random()}</p>
-        <button onClick={refresh}>Refresh component</button>
-      </div> */}
       <h2 id="usuariostitulo">Lista de Usuários</h2>
       <button class="botaoUsuario"type="button" onClick={novosDados}>
         Novo Usuário
@@ -169,7 +137,7 @@ function gravaDados() {
             }}
           />
           </div>
-          <button class="botaoUsuario" type="button" onClick={cancelarDados}>
+          <button class="botaoUsuario" type="button" onClick={limparDados}>
             Cancelar
           </button>
           <button class="botaoUsuario" type="button" onClick={gravaDados}>
